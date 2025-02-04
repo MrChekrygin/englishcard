@@ -11,7 +11,7 @@
 1. **Клонируйте репозиторий:**
 
 ```bash
-git clone https://github.com/your-repo/englishcard.git
+git clone https://github.com/MrChekrygin/englishcard
 cd englishcard
 ```
 
@@ -105,6 +105,28 @@ python telegram_bot.py
 - `user_id` (FK) — идентификатор пользователя.
 - `word_id` (FK) — идентификатор слова.
 - `correct_answers` — количество правильных ответов.
+
+### 📋 SQL-код для создания таблиц
+
+```sql
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    telegram_id BIGINT UNIQUE NOT NULL
+);
+
+CREATE TABLE words (
+    word_id SERIAL PRIMARY KEY,
+    target_word VARCHAR(255) NOT NULL,
+    translate_word VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE user_words (
+    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+    word_id INTEGER REFERENCES words(word_id) ON DELETE CASCADE,
+    correct_answers INTEGER DEFAULT 0,
+    PRIMARY KEY (user_id, word_id)
+);
+```
 
 ---
 
